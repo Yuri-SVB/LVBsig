@@ -5,7 +5,7 @@ We propose a hybrid-key signature scheme consisting of a conventional signing sc
 ## Notation
 
 * **HL(.)** = serial-work- and memory-*hard* hash with *short* digest (ex.: Argon2 with ~ 12 bytes output. "L" for "Lamport");
-* **HLL(.)** = serial-work- and memory-*hard* hash with *extremely long* digest (ex.: Argon2 with ~ 128MB output. "LL" for "Lamport" and "Long");
+* **HLL(.)** = serial-work- and memory-*hard* hash with *extremely long* digest (ex.: Argon2 with ~ 1KB output. "LL" for "Lamport" and "Long");
 * **HA(.)** = nonspecific representation of conventional hashes with *long* (brute-force-resistant) digest length, and output formated into some Bitcoin address. "A" for "Address";
 * **KDF(.)** = conventional key deriving function
 * **SEED** = conventional Bitcoin seed
@@ -52,9 +52,7 @@ There are three possible cryptanalysis to LAMPPRI in my scheme:
 2.  From ADDR and (TX, SIG) after T0-1 (to be precise, after publishing of BI);
 3.  Outmine the rest of mining community starting from a disadvantage of not less than (T1-T0-1) blocks after T1 (to be precise, at time of publishing of LAMPRI);
 
-For this analysis, we take note of the ironic fact that *LAMPPUB is never mined*. For that reason we can have LAMPPUB be 1Mb or even 1Gb long aiming 
-at having rate of collision in HL(.) be negligible (note this is perfectly adherent to the proposition of memory-hard-hash, and would have the additional 
-benefit of allowing processing-storage trade-off). In this case, we really have:
+For this analysis, we take note of the ironic fact that *LAMPPUB is typically not mined*. For that reason we can have LAMPPUB be ~1KB at having rate of collision in HL(.) be negligible (note this is perfectly adherent to the proposition of memory-hard-hash, and would have the additional benefit of allowing processing-storage trade-off). In this case, we really have:
 
 For 1: a pre-image problem for a function
 f1: {k| k is a valid ECCPRI} X {l | l is a valid LAMPPRI} -> {a | a is in the format of a ADDR}, 
