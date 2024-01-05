@@ -31,7 +31,7 @@ We propose a hybrid-key signature scheme consisting of a conventional signing sc
 2. Miner M0 includes BLi (but not BCi) in block of height T0i. Origin UTXO is frozen. TXi, contained in BLi, promises M0i F0i in fees, which is, however, not paid until steps 3 or 4 happen. M0 accepts to sell space in T0i for delayed payment because of commitment contained in BCi, which was not mined to save space on the blockchain;
 3. A few blocks later, Alice broadcasts ADDR(i-1), which miner M1i includes in block of height T1i. That authenticates TXi by allowing the verification of LSIGi, conveied in BLi, mined but pending confirmation since T0i. Upon that happening, M0i finally gets F0i. Even if she doesn't, for whatever reason (possibly an adversary blocking her access to internet), miners can derive Ki from S1i, conveyed in BHi
 M1i, miner of T1i gets their prescribed F1i. Origin UTXO is unfrozen;
-4. In case T2i is reached without broadcasting of LAMPPRI, COMMITMENT becomes executable, and is, therefore mined. M2i, its miner gets F2i fees, and
+4. In case T2i is reached without broadcasting of ADDR(i-1), COMi becomes executable, and is, therefore mined. M2i, its miner gets F2i fees, and
 M0i gets F0i+FF0i (to compensate for mining of BL and for the delay in payment). UTXOi is unfrozen.
 
 ## Security Analysis
@@ -40,7 +40,7 @@ There are three possible cryptanalysis to ADDR(i-1) in my scheme:
 
 1.  Crack it from ADDRi alone before T0i (to be precise, before publishing of BTi);
 2.  From ADDRi and (TXi, LVBSIGi) after T0i-1 (to be precise, after publishing of BTi);
-3.  Outmine the rest of mining community starting from a disadvantage of not less than (T1-T0-1) blocks after T1 (to be precise, at time of publishing of ADDR(i-1));
+3.  Outmine the rest of mining community starting from a disadvantage of not less than (T1i-T0i-1) blocks after T1i (to be precise, at time of publishing of ADDR(i-1));
 
 For 1: a pre-image problem for a function
 f1: {a | a is in the format of a ADDR} -> {a | a is in the format of a ADDR}, 
@@ -52,9 +52,9 @@ f2_(TXi,SALTi): {a | a is in the format of a ADDR} -> {a | a is in the format of
 having as domain the set of bitarrays in the same format as ADDRs and codomain, the Cartesian product of the set of bitarrays in the same format as ADDRs with the set of bit arrays with the same length as LSIG. Here, f2_(TX,ECCPUB,SALT) is given by:
 f2_(TXi,SALTi)(a) = (h(PUB_FROM_PRI(KDF(a))),h(TXi,ADDR(i-1),SALTi))
 
-It can be argued that problem 2 is actually harder because attacker also has to mach the already published PUBi. But even the current statement of the problem is already unfeasible, particularly considering the limitted window of time (of T2-T0 block at best) for solving it.
+It can be argued that problem 2 is actually harder because attacker also has to mach the already published PUBi. But even the current statement of the problem is already unfeasible, particularly considering the limitted window of time (of T2i-T0i block at best) for solving it.
 
-For 3: Equivalente of a double-spending attack with, in the worst case, not less than (T1-T0-1) blocks in advantage for the rest of the community.
+For 3: Equivalente of a double-spending attack with, in the best case (for attacker), starting from not less than (T1i-T0i-1) blocks in disadvantage to the rest of mining community. In other words, attacker has to outmine the rest of the community for at least (T1i-T0i-1) blocks to 'unbury' (TXi,LVBSIGi), and substitute it for a forged transaction.
 
 ## Multi Use
 
