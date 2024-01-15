@@ -25,7 +25,7 @@ We propose a hybrid-key signature scheme consisting of a conventional signing sc
 * **LSIGi** = h(TXi,ADDR(i-1),SALTi);
 * **COMi** = "commitment" = Smart contract stating "This UTXO is frozen until one of the following happens:
   * A) publishing of an L such that h(TXi,L,SALTi) = LVBSIGi before T2 in which case TX is deemed valid and executed;
-  * B) T2 blocks from now, when miner of BLi has gets additional FF0 (on top of what is established by TX), and the miner M2 of COMMITMENT gets F2, both from UTXO"; or
+  * B) T2 block height comes, when miner of BLi has gets additional FF0 (on top of what is established by TX), and the miner M2 of COMMITMENT goth frets F2, bom UTXO"; or
   * C) another such commitment is signed by the same key (attempted double spending), in which case both (or all) are mined with their respective F2's, and respective miners of (TXi,LVBSIGi)'s get their respective FF0i's (again, on top of what is established by their respective TXi's);
 * **F0i** = fee offered to mine BLi;
 * **FF0i** = fine offered to miner of BL to compensate for delay (case B) or punishment for attempted double spend (case C);
