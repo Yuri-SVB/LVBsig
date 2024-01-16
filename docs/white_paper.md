@@ -2,20 +2,29 @@
 
 We propose a hybrid-key signature scheme consisting of a conventional signing scheme with irrepudiable signature and [Lamport scheme](https://en.wikipedia.org/wiki/S/KEY). The benefit of it is a significant reduction of onchain footprint as will be demonstrated below.
 
+## Diagram
+
+![Diagram representing derivation_of_one_LVBsig_chain_cycle](keys_diagram.jpg)
+
 ## Notation
 
-* **H(.)** = serial-work- and memory-*hard* hash;
+* **TLP(.)** = Time-Lock Puzzle serial-work- and memory-hard hash, fully homomorphic under FHE(.);
 * **h(.)** = nonspecific representation of conventional hashes;
+* **FHE(.)** = Fully Homomorphic Encryption through a certain symmetric key of unique use;
 * **KDF(.)** = conventional key deriving function;
 * **PUBi** = public key correspondent to PRI_i;
 * **PRIi** = KDF(ADDR_(i-1) = conventional Bitcoin signing key;
+* **PRIi(.)** = signature scheme having PRIi as signing key;
 * **ADDRi** = h(PUB_i) = i-th Bitcoin address of the chain;
-* **TXi** = plaintext transaction
-* **SALTi** = Contacenation of nonces of a few blocks recent by the time of issuing of TXi, say T0i-6, ... Ti-13
-* **LSIGi** = h(TXi,ADDR(i-1),SALTi)
+* **Si** = seed for derivation of through TLP Ki;
+* **Ki** = symmetric encryption key;
+* **Ki(.)** = symmetric encryption having Ki as key;
+* **TXi** = plaintext transaction;
+* **SALTi** = Contacenation of nonces of a few blocks recent by the time of issuing of TXi, say T0i-6, ... Ti-13. Exact specification is yet to be deliberated, but clearly using recent blocks' nonces as salt is perfectly valid, and creates no footprint overhead;
+* **LSIGi** = h(TXi,ADDR(i-1),SALTi);
 * **COMi** = "commitment" = Smart contract stating "This UTXO is frozen until one of the following happens:
   * A) publishing of an L such that h(TXi,L,SALTi) = LVBSIGi before T2 in which case TX is deemed valid and executed;
-  * B) T2 blocks from now, when miner of BLi has gets additional FF0 (on top of what is established by TX), and the miner M2 of COMMITMENT gets F2, both from UTXO"; or
+  * B) T2 block height comes, when miner of BLi has gets additional FF0 (on top of what is established by TX), and the miner M2 of COMMITMENT goth frets F2, bom UTXO"; or
   * C) another such commitment is signed by the same key (attempted double spending), in which case both (or all) are mined with their respective F2's, and respective miners of (TXi,LVBSIGi)'s get their respective FF0i's (again, on top of what is established by their respective TXi's);
 * **F0i** = fee offered to mine BLi;
 * **FF0i** = fine offered to miner of BL to compensate for delay (case B) or punishment for attempted double spend (case C);
@@ -59,3 +68,10 @@ For 3: Equivalente of a double-spending attack with, in the best case (for attac
 ## Multi Use
 
 Protocol clearly can be set to allow N usages, where N gives the total iterations of the Lamport chain. Through address reuse is generally discouraged for anonymity purposes, often time the opposite of anonymity, namely, the public biding between a name and a key, is desired. For cases like that, in particular, an additional economy is possible because of the coincidence of ADDR(i-1) of both Lamport pre-image and exchange address.
+
+## Footprint Analysis
+
+In addition to TXi, the on-chain footprint of a single transaction includes:
+
+* **LVBSIGi**: that can be safely set as **16 bytes**, considering the abundance of recent, high-quality salting given by SALTi;
+* **ADDR(i-1)**: that is, for now, suggested to be **20 bytes**. We note that in case of reuse of address, this same piece of information is (and must be) economized in its plain form in TXi, in which case, the footprint falls to **0 bytes**.
