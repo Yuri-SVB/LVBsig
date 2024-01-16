@@ -8,7 +8,7 @@ We propose a hybrid-key signature scheme consisting of a conventional signing sc
 
 ## Notation
 
-* **H(.)** = serial-work- and memory-*hard* hash, fully homomorphic under FHE(.);
+* **TLP(.)** = Time-Lock Puzzle serial-work- and memory-hard hash, fully homomorphic under FHE(.);
 * **h(.)** = nonspecific representation of conventional hashes;
 * **FHE(.)** = Fully Homomorphic Encryption through a certain symmetric key of unique use;
 * **KDF(.)** = conventional key deriving function;
@@ -16,8 +16,7 @@ We propose a hybrid-key signature scheme consisting of a conventional signing sc
 * **PRIi** = KDF(ADDR_(i-1) = conventional Bitcoin signing key;
 * **PRIi(.)** = signature scheme having PRIi as signing key;
 * **ADDRi** = h(PUB_i) = i-th Bitcoin address of the chain;
-* **S1i** = h(ADDR(i-1)) = an intermediary step for derivation of Ki;
-* **S2i** = H(S1i) = another intermediary step for derivation of Ki;
+* **Si** = seed for derivation of through TLP Ki;
 * **Ki** = symmetric encryption key;
 * **Ki(.)** = symmetric encryption having Ki as key;
 * **TXi** = plaintext transaction;
