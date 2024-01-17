@@ -72,7 +72,7 @@
       <bpmn:incoming>Flow_1i4srbq</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="Flow_1i4srbq" sourceRef="Event_14vyqdf" targetRef="Event_1ohf4gs" />
-    <bpmn:endEvent id="Event_06tij68" name="BLi=(TXi, LVBsig),      where&#10;LVBsig = h(TXi, ADDR(i-1),ALTi)">
+    <bpmn:endEvent id="Event_06tij68" name="BLi=(TXi, LVBsig),      where&#10;LVBsig = h(TXi, ADDR(i-1),SALTi)">
       <bpmn:incoming>Flow_1n3oemb</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:task id="Activity_0ztla8g" name="h">
