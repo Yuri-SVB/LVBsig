@@ -70,3 +70,12 @@ In addition to TXi, the on-chain footprint of a single transaction includes:
 
 * **LVBSIGi**: that can be safely set as **16 bytes**, considering the abundance of recent, high-quality salting given by SALTi;
 * **ADDR(i-1)**: that is, for now, suggested to be **20 bytes**. We note that in case of reuse of address, this same piece of information is (and must be) economized in its plain form in TXi, in which case, the footprint falls to **0 bytes**.
+
+## Likely Implementation
+
+In terms of protocol implementation this protocol can be implemented through the combination of the following 2 components:
+
+1.  COMi, as it is defined above;
+2.  Transaction minable in Blockspace, which can be pending confirmation, and can be authenticated (a few blocks later) by pre-image of hash h of LVBSIGi and pre-image of f1 as defined above. The authenticating pre-image would also be mined in Blockspace.
+
+The mechanism of BHi not only is not stricly necessary for the protocol, but also is extrinsic to it: No components of BHi except by ADDR(i-1) are ever mined.
