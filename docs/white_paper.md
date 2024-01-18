@@ -22,7 +22,7 @@ We propose a hybrid-key signature scheme consisting of a conventional signing sc
 * **TXi** = plaintext transaction that empties ADDRi, the address it refers to. ADDR(i-1) can be used for exchange address, which would be for free in on-chain footprint, because exactly ADDR(i-1) will have to be published later for the validation of TXi. In case i = 1, such an option is not available;
 * **SALTi** = Contacenation of nonces of a few blocks recent by the time of issuing of TXi, say T0i-6, ... Ti-13. Exact specification is yet to be deliberated, but clearly using recent blocks' nonces as salt is perfectly valid, and creates no footprint overhead;
 * **LSIGi** = h(TXi,ADDR(i-1),SALTi);
-* **COMi** = "commitment" = Smart contract stating "Miner of BLi gets F0i+FF0i. This transaction is not minable before (T2i-T0i) after Bli is mined."
+* **COMi** = "commitment" = Smart contract stating "Miner of BLi gets F0i+FF0i. This transaction is not minable before (T2i-T0i) after BLi is mined."
 * **F0i** = fee offered to mine BLi;
 * **FF0i** = fine offered to miner of BL to compensate for delay (case B) or punishment for attempted double spend (case C);
 * **F1i** = fee offered to mine ADDR(i-1) // TO BE DELIBERATED: it could be better to just hardcode set F1i to always be equal F0i, therefore economizing space for it in the blockchain;
