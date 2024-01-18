@@ -22,7 +22,7 @@ We propose a hybrid-key signature scheme consisting of a conventional signing sc
 * **TXi** = plaintext transaction that empties ADDRi, the address it refers to. ADDR(i-1) can be used for exchange address, which would be for free in on-chain footprint, because exactly ADDR(i-1) will have to be published later for the validation of TXi. In case i = 1, such an option is not available;
 * **SALTi** = Contacenation of nonces of a few blocks recent by the time of issuing of TXi, say T0i-6, ... Ti-13. Exact specification is yet to be deliberated, but clearly using recent blocks' nonces as salt is perfectly valid, and creates no footprint overhead;
 * **LSIGi** = h(TXi,ADDR(i-1),SALTi);
-* **COMi** = "commitment" = Smart contract stating "Miner of BLi gets F0i+FF0i. This transaction is not minable before (T2i-T0i) after Bli is mined."
+* **COMi** = "commitment" = Smart contract stating "Miner of BLi gets F0i+FF0i. This transaction is not minable before (T2i-T0i) after BLi is mined.";
 * **F0i** = fee offered to mine BLi;
 * **FF0i** = fine offered to miner of BL to compensate for delay (case B) or punishment for attempted double spend (case C);
 * **F1i** = fee offered to mine ADDR(i-1) // TO BE DELIBERATED: it could be better to just hardcode set F1i to always be equal F0i, therefore economizing space for it in the blockchain;
@@ -30,6 +30,10 @@ We propose a hybrid-key signature scheme consisting of a conventional signing sc
 * **T0i** = Block height of mining of BT;
 * **T1i** = Block height owner should aim at broadcasting ADDR(i-1), or expected derivation of Ki from S1i. T1i = T0i+1 to T0i+6 blocks. This is to protect owner from dissensus. Namely, revealing ADDR(i-1) in a block and have it utilized to forge transaction in a competing block of same height.
 * **T2i** = Block height of expiration of commitment. T2i = T0i+24*6 = T0i+144 (that is 24 h worth of blocks). This is to protect user from execution of commitment due to innocent network unavailability, at the same time put an incentive on miners to solve time-lock-puzzle (deriving Ki from S1i) to have F1i payable now rather than F2i later;
+* **BTi** = (BCi,BLi,(BHi)) = "Total Bundle" = Concatenation of bundles below. BHi is optional;
+* **BCi** = (COMi,PRIi(COMi)) = "Commitment Bundle" = the commitment and its signature. Caption in green to indicate that it typically is not mined to save on blockchain space;
+* **BLi** = (TXi, LVBsig) = "Lamport Bundle" = plaintext transaction and the LVBSIG of it, namely, the hash of it with concatenated with ADDR(i-1) and SALTi;
+* **BHi** = (Si, Ki(ADDR(i-1))) = "Hash Bundle" = problem allowing the attainment of ADDR(i-1) within an interval of time designed to be safely larger than (T1i-T0i) for a reasonable value of T1i (so Alice doesn't run the risk of having a transaction forged), but also safely shorter than (T2i-T0i) (so that Alice doesn't run the risk of incurring in the fine). Caption in blue to indicate that the components are never mined;
 
 ## Protocol
 
@@ -70,3 +74,12 @@ In addition to TXi, the on-chain footprint of a single transaction includes:
 
 * **LVBSIGi**: that can be safely set as **16 bytes**, considering the abundance of recent, high-quality salting given by SALTi;
 * **ADDR(i-1)**: that is, for now, suggested to be **20 bytes**. We note that in case of reuse of address, this same piece of information is (and must be) economized in its plain form in TXi, in which case, the footprint falls to **0 bytes**.
+
+## Likely Implementation
+
+In terms of protocol implementation this protocol can be implemented through the combination of the following 2 components:
+
+1.  COMi, as it is defined above;
+2.  Transaction minable in Blockspace, which can be pending confirmation, and can be authenticated (a few blocks later) by pre-image of hash h of LVBSIGi and pre-image of f1 as defined above. The authenticating pre-image would also be mined in Blockspace.
+
+The mechanism of BHi not only is not stricly necessary for the protocol, but also is extrinsic to it: No components of BHi except by ADDR(i-1) are ever mined.
