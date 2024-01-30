@@ -80,6 +80,6 @@ In addition to TXi, the on-chain footprint of a single transaction includes:
 In terms of protocol implementation this protocol can be implemented through the combination of the following 2 components:
 
 1.  COMi, as it is defined above;
-2.  Transaction minable in Blockspace, which can be pending confirmation, and can be authenticated (a few blocks later) by pre-image of hash h of LVBSIGi and pre-image of f1 as defined above. The authenticating pre-image would also be mined in Blockspace.
+2.  Transaction minable to coinbase, which can be pending confirmation, and can be authenticated (a few blocks later) by pre-image of hash h of LVBSIGi and pre-image of f1 as defined above. The authenticating pre-image would also be mined in Blockspace.
 
 The mechanism of BHi not only is not stricly necessary for the protocol, but also is extrinsic to it: No components of BHi except by ADDR(i-1) are ever mined.
