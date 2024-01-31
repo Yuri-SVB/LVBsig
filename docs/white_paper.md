@@ -27,7 +27,7 @@ We propose a hybrid-key signature scheme consisting of a conventional signing sc
 * **FF0i** = fine offered to miner of BL to compensate for delay (case B) or punishment for attempted double spend (case C);
 * **F1i** = fee offered to mine ADDR(i-1) // TO BE DELIBERATED: it could be better to just hardcode set F1i to always be equal F0i, therefore economizing space for it in the blockchain;
 * **F2i** = fee offered to mine BC in case of default;
-* **T0i** = Block height of mining of BT;
+* **T0i** = Block height of mining of BLi;
 * **T1i** = Block height owner should aim at broadcasting ADDR(i-1), or expected derivation of Ki from S1i. T1i = T0i+1 to T0i+6 blocks. This is to protect owner from dissensus. Namely, revealing ADDR(i-1) in a block and have it utilized to forge transaction in a competing block of same height.
 * **T2i** = Block height of expiration of commitment. T2i = T0i+24*6 = T0i+144 (that is 24 h worth of blocks). This is to protect user from execution of commitment due to innocent network unavailability, at the same time put an incentive on miners to solve time-lock-puzzle (deriving Ki from S1i) to have F1i payable now rather than F2i later;
 * **BTi** = (BCi,BLi,(BHi)) = "Total Bundle" = Concatenation of bundles below. BHi is optional;
@@ -80,6 +80,6 @@ In addition to TXi, the on-chain footprint of a single transaction includes:
 In terms of protocol implementation this protocol can be implemented through the combination of the following 2 components:
 
 1.  COMi, as it is defined above;
-2.  Transaction minable in Blockspace, which can be pending confirmation, and can be authenticated (a few blocks later) by pre-image of hash h of LVBSIGi and pre-image of f1 as defined above. The authenticating pre-image would also be mined in Blockspace.
+2.  Transaction minable to coinbase, which can be pending confirmation, and can be authenticated (a few blocks later) by pre-image of hash h of LVBSIGi and pre-image of f1 as defined above. The authenticating pre-image would also be mined in Blockspace.
 
 The mechanism of BHi not only is not stricly necessary for the protocol, but also is extrinsic to it: No components of BHi except by ADDR(i-1) are ever mined.
